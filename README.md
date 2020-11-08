@@ -4,6 +4,7 @@ Data set containing information about social networking websites extracted on 27
 ## json keys description
 
  - **name:** name of the social networking website
+ - **wiki_handle:** wikipedia id. Add the string to "https://en.wikipedia.org/wiki/" to get to the wikipedia page of the social networking website
  - **year_founded:** year that the social networking website was launched
  - **headquarters:** location of the website's headquarters
  - **employees:** employee count working on the website
