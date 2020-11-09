@@ -1,0 +1,24 @@
+name,wiki_handle,year_founded,headquarters,employees,parent_company,website,monthly_users,registration_required,founder_first_name,founder_last_name
+23snaps,23snaps,2012,"London, United Kingdom",20,23snaps,www.23snaps.com,500000,1,Ivailo,Jordanov
+23snaps,23snaps,2012,"London, United Kingdom",20,23snaps,www.23snaps.com,500000,1,Yury,Tereshchenko
+Facebook,Facebook,2004,"Menlo Park, California",52000,"Facebook, Inc.",www.facebook.com,2600000000,1,Mark,Zuckerberg
+Instagram,Instagram,2010,"Menlo Park, US",,"Facebook, Inc.",www.instagram.com,1000000000,1,Kevin,Systrom
+Instagram,Instagram,2010,"Menlo Park, US",,"Facebook, Inc.",www.instagram.com,1000000000,1,Mike,Krieger
+Discord,Discord,2015,"San Francisco, US",592,Discord,www.discord.com,100000000,1,Jason,Citron
+Twitter,Twitter,2006,"San Francisco, US",4900,Twitter,www.twitter.com,326000000,1,Jack,Dorsey
+Twitter,Twitter,2006,"San Francisco, US",4900,Twitter,www.twitter.com,326000000,1,Noah,Glass
+Twitter,Twitter,2006,"San Francisco, US",4900,Twitter,www.twitter.com,326000000,1,Biz,Stone
+Twitter,Twitter,2006,"San Francisco, US",4900,Twitter,www.twitter.com,326000000,1,Evan,Williams
+Reddit,Reddit,2005,"San Francisco, US",400,Advance Publications,www.reddit.com,430000000,0,Steve,Huffman
+Reddit,Reddit,2005,"San Francisco, US",400,Advance Publications,www.reddit.com,430000000,0,Aaron,Swartz
+Reddit,Reddit,2005,"San Francisco, US",400,Advance Publications,www.reddit.com,430000000,0,Alexis,Ohanian
+Snapchat,Snapchat,2011,"Santa Monica, US",3195,Snap,www.snapchat.com,397000000,1,Reggie,Brown
+Snapchat,Snapchat,2011,"Santa Monica, US",3195,Snap,www.snapchat.com,397000000,1,Evan,Spiegel
+Snapchat,Snapchat,2011,"Santa Monica, US",3195,Snap,www.snapchat.com,397000000,1,Bobby,Murphy
+Pinterest,Pinterest,2009,"San Francisco, US",2217,Pinterest,www.pinterest.com,367000000,1,Ben,Silbermann
+Pinterest,Pinterest,2009,"San Francisco, US",2217,Pinterest,www.pinterest.com,367000000,1,Paul,Sciarra
+Pinterest,Pinterest,2009,"San Francisco, US",2217,Pinterest,www.pinterest.com,367000000,1,Evan,Sharp
+Tumblr,Tumblr,2007,"New York, US",400,Automattic,www.tumblr.com,23000000,0,David,Karp
+YouTube,YouTube,2005,"San Bruno, US",2000,Google,www.youtube.com,2000000000,0,Chad,Hurley
+YouTube,YouTube,2005,"San Bruno, US",2000,Google,www.youtube.com,2000000000,0,Steve,Chen
+YouTube,YouTube,2005,"San Bruno, US",2000,Google,www.youtube.com,2000000000,0,Jawed,Karim

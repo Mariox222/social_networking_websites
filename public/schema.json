@@ -1,0 +1,115 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "http://localhost:3000/json.json",
+    "type": "array",
+    "title": "Social networking websites",
+    "description": "Social networking websites",
+    "items": {
+        "$id": "#/items",
+        "anyOf": [
+            {
+                "$id": "#/items/anyOf/0",
+                "type": "object",
+                "title": "Social networks",
+                "description": "Object that contains data abou one social networking website",
+                "required": [
+                    "name",
+                    "wiki_handle"
+                ],
+                "properties": {
+                    "name": {
+                        "$id": "#/items/anyOf/0/properties/name",
+                        "type": "string",
+                        "title": "name of the social network",
+                        "description": "name of the social network"
+                    },
+                    "wiki_handle": {
+                        "$id": "#/items/anyOf/0/properties/wiki_handle",
+                        "type": "string",
+                        "title": "wikipedia handle",
+                        "description": "Add the string to https://en.wikipedia.org/wiki/ to get to the wikipedia page of the social networking website"
+                    },
+                    "year_founded": {
+                        "$id": "#/items/anyOf/0/properties/year_founded",
+                        "type": "string",
+                        "title": "year founded",
+                        "description": "year that the social networking website was launched"
+                    },
+                    "headquarters": {
+                        "$id": "#/items/anyOf/0/properties/headquarters",
+                        "type": "string",
+                        "title": "headquarters",
+                        "description": "location of the website's headquarters"
+                    },
+                    "employees": {
+                        "$id": "#/items/anyOf/0/properties/employees",
+                        "type": "string",
+                        "title": "employees",
+                        "description": "employee count working on the website"
+                    },
+                    "parent_company": {
+                        "$id": "#/items/anyOf/0/properties/parent_company",
+                        "type": "string",
+                        "title": "parent company",
+                        "description": "name of the company that owns the social networking website"
+                    },
+                    "website": {
+                        "$id": "#/items/anyOf/0/properties/website",
+                        "type": "string",
+                        "title": "website",
+                        "description": "URL to the social networking website"
+                    },
+                    "monthly_users": {
+                        "$id": "#/items/anyOf/0/properties/monthly_users",
+                        "type": "string",
+                        "title": "monthly users",
+                        "description": "number of monthly users"
+                    },
+                    "registration_required": {
+                        "$id": "#/items/anyOf/0/properties/registration_required",
+                        "type": "string",
+                        "title": "The registration_required schema",
+                        "description": "is set to 1 if registration is required to see the contents of the website, if no registration is required, it is set to 0"
+                    },
+                    "founders": {
+                        "$id": "#/items/anyOf/0/properties/founders",
+                        "type": "array",
+                        "title": "founders",
+                        "description": "an array of objects that contain the first name and the last name of social networking website's founders",
+                        "items": {
+                            "$id": "#/items/anyOf/0/properties/founders/items",
+                            "anyOf": [
+                                {
+                                    "$id": "#/items/anyOf/0/properties/founders/items/anyOf/0",
+                                    "type": "object",
+                                    "title": "founder",
+                                    "description": "Object that contains data about one founder",
+                                    "required": [
+                                        "first_name",
+                                        "last_name"
+                                    ],
+                                    "properties": {
+                                        "first_name": {
+                                            "$id": "#/items/anyOf/0/properties/founders/items/anyOf/0/properties/first_name",
+                                            "type": "string",
+                                            "title": "first name",
+                                            "description": "first name"
+                                        },
+                                        "last_name": {
+                                            "$id": "#/items/anyOf/0/properties/founders/items/anyOf/0/properties/last_name",
+                                            "type": "string",
+                                            "title": "last name",
+                                            "description": "last name"
+                                        }
+                                    },
+                                    "additionalProperties": true
+                                }
+                            ]
+                        }
+                    }
+                },
+                "additionalProperties": true
+            }
+        ]
+    }
+}

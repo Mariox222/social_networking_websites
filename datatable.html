@@ -1,0 +1,154 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Datatable</title>
+    <meta name="description" content="Data set containing information about social networking websites extracted on 27th october 2020. Data set is available in .json and .csv formats.">
+    <meta name="author" content="Mario Bašić">
+    <style>
+        table,
+        th,
+        td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 3px;
+        }
+    </style>
+</head>
+
+<body>
+    <form>
+        <label for="value">Polje za pretragu:</label><br>
+        <input type="text" id="value" name="value"><br>
+        <label for="searchType">Last name:</label><br>
+        <select id="searchType" name="searchType">
+            <option value="wildcard">Sva polja (wildcard)</option>
+            <option value="name">Ime</option>
+            <option value="wiki_handle">Wikipedia id</option>
+            <option value="year_founded">Godina osnutka</option>
+            <option value="headquarters">Lokacija sjedišta</option>
+            <option value="employees">Broj zaposlenika</option>
+            <option value="parent_company">Firma vlasnik</option>
+            <option value="website">Web stranica</option>
+            <option value="monthly_users">Broj mjesečnih korisnika</option>
+            <option value="registration_required">Registracija potrebna? 1 ili 0</option>
+        </select>
+    </form>
+    <button onclick="searchByFilter()">Pretraži</button> <br> <br>
+
+    <div class="container">
+        <table style="width: 100%;" id="myTable">
+            <tr>
+                <th>Ime</th>
+                <th>Wikipedija id</th>
+                <th>Godina osnutka</th>
+                <th>Lokacija sjedišta</th>
+                <th>zaposlenici</th>
+                <th>Firma vlasnik</th>
+                <th>Web stranica</th>
+                <th>Broj mjesečnih korisnika</th>
+                <th>Registracija potrebna?</th>
+                <th>Osnivači</th>
+            </tr>
+        </table>
+    </div>
+    <br>
+    <button ><a href="filteredJson.json">Preuzmi json</a></button> <br> <br>
+    <button ><a href="filteredCsv.csv">Preuzmi csv</a></button> <br> <br>
+
+</body>
+<script>
+    searchByFilter = async () => {
+        let value = document.getElementById("value").value;
+        if (value == '') {
+            alert('Morate unijeti vrijednost')
+            return
+        }
+
+        let data = await getData()
+        console.log('data fetched is ' + JSON.stringify(data))
+
+        addRows(data)
+
+    }
+
+    getData = async () => {
+        let value = document.getElementById("value").value;
+        let searchType = document.getElementById("searchType").value
+        let url = 'http://localhost:3000/data?value=' + value.toLowerCase() + '&searchType=' + searchType
+        let response = await fetch(url, { method: "GET" });
+
+        if (response.ok) { // if HTTP-status is 200-299
+            // get the response body (the method explained below)
+            let data = await response.json();
+            return data
+        } else {
+            alert("HTTP-Error: " + response.status);
+        }
+    }
+
+    removeAllChildNodes = (parent) => {
+        //console.log(parent.lastChild)
+        while (parent.children.length > 1) {
+            //console.log(parent.lastChild)
+            parent.removeChild(parent.lastChild);
+        }
+    }
+
+    addRows = async (data) => {
+        let table = document.getElementById("myTable")
+        removeAllChildNodes(table.lastChild)
+
+        let values = Object.values(data)
+        //console.log(values)
+        if (values != undefined) {
+            values.forEach(network => {
+                //console.log(network)
+                let row = table.insertRow(1)
+
+                let cell1 = row.insertCell(0)
+                let cell2 = row.insertCell(1)
+                let cell3 = row.insertCell(2)
+                let cell4 = row.insertCell(3)
+                let cell5 = row.insertCell(4)
+                let cell6 = row.insertCell(5)
+                let cell7 = row.insertCell(6)
+                let cell8 = row.insertCell(7)
+                let cell9 = row.insertCell(8)
+                let cell10 = row.insertCell(9)
+
+                cell1.innerHTML = network.name
+                cell2.innerHTML = network.wiki_handle
+                cell3.innerHTML = network.year_founded
+                cell4.innerHTML = network.headquarters
+                cell5.innerHTML = network.employees
+                cell6.innerHTML = network.parent_company
+                cell7.innerHTML = network.website
+                cell8.innerHTML = network.monthly_users
+                cell9.innerHTML = network.registration_required
+                cell10.innerHTML = ''
+
+                network.founders.forEach(founder => {
+                    if (cell10.innerHTML == '') {
+                        cell10.innerHTML = founder.first_name + ' ' + founder.last_name
+                    } else {
+                        cell10.innerHTML = cell10.innerHTML + ',\n' + founder.first_name + ' ' + founder.last_name
+                    }
+                })
+
+            })
+        }
+    }
+
+
+    (async () => {
+        let data = await getData()
+        console.log('data fetched is ' + JSON.stringify(data))
+
+        addRows(data)
+    })();
+</script>
+
+
+</html>
