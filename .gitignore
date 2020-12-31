@@ -1,3 +1,6 @@
+public.filteredCsv.csv
+public.filteredJson.json
+
 # Logs
 logs
 *.log
