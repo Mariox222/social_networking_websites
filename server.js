@@ -56,17 +56,18 @@ app.get('/data', async (req, res) => {
                         }
                     })
                 } catch (err) {
-                    
+
                     return
                 }
             } else {
-                try{
-                if (item.info[searchType].toLowerCase() == value) {
-                    result.push(item.info)
-                    return
-                } else {
-                    return
-                }} catch (err){
+                try {
+                    if (item.info[searchType].toLowerCase() == value) {
+                        result.push(item.info)
+                        return
+                    } else {
+                        return
+                    }
+                } catch (err) {
                     console.log(err)
                 }
             }
@@ -97,6 +98,62 @@ app.get('/data', async (req, res) => {
 
     //console.log(result)
     res.send(JSON.stringify(result))
+})
+
+
+
+app.get('/api/id/:id', async (req, res) => {
+
+    //get parameters from the HTTP request
+    let networkID = req.params.id
+
+    //get data from the database
+    let text = 'SELECT * FROM socials'
+    let data = await db.query(text);
+
+    //create response JSON object. item.info contains the object from database
+    let result = undefined
+    data.rows.forEach(async (item, i) => {
+        if (networkID == item.id) {
+            result = {
+                "status": "OK",
+                "message": "Fetched social networking webiste object",
+                "response": item.info
+            }
+
+            let links = [
+                {
+                    "href": "openapidoc",                                      // <- to do
+                    "rel": "Open api documentation",
+                    "type": "GET"
+                }
+            ]
+
+            result.response.links = links
+
+            res.type('json')
+            res.status('200')
+            res.send(JSON.stringify(result))
+        }
+
+        if (result == undefined) {
+            result = {
+                "status": "Not Found",
+                "message": "Social networking website with the provided ID doesn't exist",
+                "reponse": null
+            }
+            res.type('json')
+            res.status('404')
+            res.send(JSON.stringify(result))
+        }
+    })
+})
+
+app.get('/openapidoc', async (req, res) => {
+    //send openapi documentation
+    res.type('json')
+    res.status('404')
+    res.sendFile(path.join(__dirname + '/public/openapi.json'))
 })
 
 var server = app.listen(3000, function () { })
