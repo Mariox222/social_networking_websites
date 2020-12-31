@@ -1,5 +1,5 @@
-public.filteredCsv.csv
-public.filteredJson.json
+public/filteredCsv.csv
+public/filteredJson.json
 
 # Logs
 logs
