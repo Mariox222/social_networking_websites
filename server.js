@@ -378,6 +378,73 @@ app.post('/api', async (req, res) => {
     }
 })
 
+app.put('/api/:id', async (req, res) => {
+
+    //get parameters from the HTTP request
+    let networkID = req.params.id
+
+    //get HTTP request body
+    let body = req.body
+    if (Object.entries(body).length === 0) {
+        res.status('501')
+        res.send("couldn't get request body")
+        res.end()
+    }
+    let result = undefined
+
+    //get data from the database
+    let text = `SELECT * FROM socials WHERE socials.id = ${networkID}`
+    let data = await db.query(text);
+
+    if (!(data.rows === undefined || data.rows.length == 0)) {
+        //success
+        item = data.rows[0].info
+        for (const key in body) {
+            item[key] = body[key]
+        }
+
+        //update data in the database
+        let updateText = `  UPDATE socials
+                            SET info = '${JSON.stringify(item)}' 
+                            WHERE socials.id = ${networkID};`
+        let updateResponse = await db.query(updateText);
+
+        result = {
+            "status": "OK",
+            "message": "Updated social networking webiste from database",
+            "response": {
+                "ID of updated website": networkID,
+            }
+        }
+        let links = [
+            {
+                "href": "openapidoc",
+                "rel": "Open api documentation",
+                "type": "GET"
+            },
+        ]
+
+        result.response.links = links
+
+        res.type('json')
+        res.status('200')
+        res.send(JSON.stringify(result))
+        res.end()
+
+    } else {
+        result = {
+            "status": "Not Implemented",
+            "message": "Couldn find object to database",
+            "reponse": null
+        }
+        res.type('json')
+        res.status('501')
+        res.send(JSON.stringify(result))
+        res.end()
+    }
+
+})
+
 app.delete('/api/:id', async (req, res) => {
 
     //get parameters from the HTTP request
@@ -434,6 +501,7 @@ app.use((req, response, next) => {
         message: 'Method not implemented for requested resource',
         response: null
     });
+    response.end()
 });
 
 var server = app.listen(3000, function () { })
