@@ -319,8 +319,7 @@ app.get('/api/:id/website', async (req, res) => {
 app.post('/api', async (req, res) => {
     //get HTTP request body
     let body = req.body
-    if (body === undefined) {
-        console.log("body is undefined\n\n\n")
+    if (Object.entries(body).length === 0) {
         res.status('501')
         res.send("couldn't get request body")
         res.end()
