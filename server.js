@@ -386,7 +386,7 @@ app.put('/api/:id', async (req, res) => {
     //get HTTP request body
     let body = req.body
     if (Object.entries(body).length === 0) {
-        res.status('501')
+        res.status('400')
         res.send("couldn't get request body")
         res.end()
     }

@@ -1,3 +1,247 @@
 {
-    "openapi": "open api"
+    "openapi": "3.0.3",
+    "info": {
+        "info": "Social networking websites",
+        "version": "1.0"
+    },
+    "paths": {
+        "/api/id/{id}": {
+            "get": {
+                "summary": "Get resource from collection by ID",
+                "description": "Returns a single collection resource",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the resource",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Fetch successfull",
+                        "schema": {
+                            "$ref": "#/items"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ID"
+                    },
+                    "404": {
+                        "description": "Resource not found"
+                    }
+                }
+            }
+        },
+        "/openapidoc": {
+            "get": {
+                "summary": "Get open API document (this)",
+                "description": "Get open API document (this)",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Fetch successfull",
+                        "schema": {}
+                    },
+                    "404": {
+                        "description": "Document not found"
+                    }
+                }
+            }
+        },
+        "/api/{id}/wiki": {
+            "get": {
+                "summary": "Get a wiki handle from a resource from collection by ID",
+                "description": "Get a wiki handle from a resource from collection by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the resource",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Fetch successfull",
+                        "schema": {
+                            "$ref": "#/items"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ID"
+                    },
+                    "404": {
+                        "description": "Resource not found"
+                    }
+                }
+            }
+        },
+        "/api/{id}/founders": {
+            "get": {
+                "summary": "Get a founders object from a resource from collection by ID",
+                "description": "Get a founders object from a resource from collection by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the resource",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Fetch successfull",
+                        "schema": {
+                            "$ref": "#/items"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ID"
+                    },
+                    "404": {
+                        "description": "Resource not found"
+                    }
+                }
+            }
+        },
+        "/api/{id}/website": {
+            "get": {
+                "summary": "Get a website URL from a resource from collection by ID",
+                "description": "Get a website URL from a resource from collection by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the resource",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Fetch successfull",
+                        "schema": {
+                            "$ref": "#/items"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ID"
+                    },
+                    "404": {
+                        "description": "Resource not found"
+                    }
+                }
+            }
+        },
+        "/api": {
+            "post": {
+                "summary": "add a resource to collection",
+                "description": "add a resource to collection",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Addition successfull",
+                        "schema": {
+                            "$ref": "#/items"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request body"
+                    },
+                    "404": {
+                        "description": "Resource not found"
+                    }
+                }
+            }
+        },
+        "/api/{id}": {
+            "put": {
+                "summary": "Updatedes a resource from collection by ID",
+                "description": "Updatedes a resource from collection by ID with key value pairs from HTTP request's body",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the resource",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Fetch successfull",
+                        "schema": {
+                            "$ref": "#/items"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request body"
+                    },
+                    "404": {
+                        "description": "Resource not found"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Deletes a resource from collection by ID",
+                "description": "deletes a resource from collection by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the resource",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "deletion successfull",
+                        "schema": {
+                            "$ref": "#/items"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request body"
+                    },
+                    "404": {
+                        "description": "Resource not found"
+                    }
+                }
+            }
+        },
+    }
 }
