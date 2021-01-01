@@ -3,8 +3,13 @@ const path = require('path'); //path
 const db = require('./db'); //database object
 const fs = require('fs') //filesystem
 const { PythonShell } = require('python-shell');
+const bodyParser = require('body-parser');
+
 
 var app = express()
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
 
 //public directory
 app.use(express.static('public'));
@@ -154,7 +159,7 @@ app.get('/api/id/:id', async (req, res) => {
 app.get('/openapidoc', async (req, res) => {
     //send openapi documentation
     res.type('json')
-    res.status('404')
+    res.status('200')
     res.sendFile(path.join(__dirname + '/public/openapi.json'))
 })
 
@@ -298,5 +303,124 @@ app.get('/api/:id/website', async (req, res) => {
         }
     })
 })
+
+app.post('/api', async (req, res) => {
+    //get HTTP request body
+    let body = req.body
+    if (body === undefined) {
+        console.log("body is undefined\n\n\n")
+        res.status('501')
+        res.send("couldn't get request body")
+        res.end()
+    }
+
+    //inssert data to the database
+    let InsertText = `INSERT INTO socials (info) VALUES('${JSON.stringify(body)}')`
+    let dbResponse = await db.query(InsertText);
+
+    //get data from the database
+    let text = 'SELECT * FROM socials'
+    let data = await db.query(text);
+
+    //check if added
+    let result = undefined
+    try {
+        data.rows.forEach(async (item, i) => {
+            if (JSON.stringify(body) == JSON.stringify(item.info)) {
+                result = {
+                    "status": "OK",
+                    "message": "Added social networking webiste to database",
+                    "response": {
+                        "newID": item.id,
+                        "added Object": body
+                    }
+                }
+                let links = [
+                    {
+                        "href": "openapidoc",
+                        "rel": "Open api documentation",
+                        "type": "GET"
+                    },
+                ]
+
+                result.response.links = links
+
+                res.type('json')
+                res.status('200')
+                res.send(JSON.stringify(result))
+                res.end()
+            }
+        })
+        if (result == undefined) {
+            result = {
+                "status": "Not Implemented",
+                "message": "Couldn't add object to database",
+                "reponse": null
+            }
+            res.type('json')
+            res.status('501')
+            res.send(JSON.stringify(result))
+            res.end()
+        }
+    } catch (err) {
+        console.log("caught error")
+    }
+})
+
+app.delete('/api/:id', async (req, res) => {
+    
+    //get parameters from the HTTP request
+    let networkID = req.params.id
+
+    //delete data from the database
+    let text = `DELETE FROM socials
+                WHERE id = ${networkID}
+                RETURNING *;`
+    let data = await db.query(text);
+
+    //check if deleted
+    let result = undefined
+    if (!(data.rows === undefined || data.rows.length == 0)){
+        //success
+        result = {
+            "status": "OK",
+            "message": "Deleted social networking webiste from database",
+            "response": {
+                "ID of deleted website": networkID,
+            }
+        }
+        let links = [
+            {
+                "href": "openapidoc",
+                "rel": "Open api documentation",
+                "type": "GET"
+            },
+        ]
+
+        result.response.links = links
+
+        res.type('json')
+        res.status('200')
+        res.send(JSON.stringify(result))
+    } else {
+        result = {
+            "status": "Not Implemented",
+            "message": "Couldn't delete object to database",
+            "reponse": null
+        }
+        res.type('json')
+        res.status('501')
+        res.send(JSON.stringify(result))
+    }
+})
+
+app.use((req, response, next) => {
+    response.status(501)
+    response.json({
+        status: 'Not Implemented',
+        message: 'Method not implemented for requested resource',
+        response: null
+    });
+});
 
 var server = app.listen(3000, function () { })
