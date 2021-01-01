@@ -100,8 +100,6 @@ app.get('/data', async (req, res) => {
     res.send(JSON.stringify(result))
 })
 
-
-
 app.get('/api/id/:id', async (req, res) => {
 
     //get parameters from the HTTP request
@@ -177,6 +175,100 @@ app.get('/api/:id/wiki', async (req, res) => {
                 "message": "Fetched social networking webiste wiki handle object",
                 "response": {
                     "wiki_handle": item.info.wiki_handle
+                }
+            }
+            let links = [
+                {
+                    "href": "openapidoc",
+                    "rel": "Open api documentation",
+                    "type": "GET"
+                },
+            ]
+
+            result.response.links = links
+
+            res.type('json')
+            res.status('200')
+            res.send(JSON.stringify(result))
+        }
+
+        if (result == undefined) {
+            result = {
+                "status": "Not Found",
+                "message": "Social networking website with the provided ID doesn't exist",
+                "reponse": null
+            }
+            res.type('json')
+            res.status('404')
+            res.send(JSON.stringify(result))
+        }
+    })
+})
+
+app.get('/api/:id/founders', async (req, res) => {
+    //get parameters from the HTTP request
+    let networkID = req.params.id
+
+    //get data from the database
+    let text = 'SELECT * FROM socials'
+    let data = await db.query(text);
+
+    //create response JSON object. item.info contains the object from database
+    let result = undefined
+    data.rows.forEach(async (item, i) => {
+        if (networkID == item.id) {
+            result = {
+                "status": "OK",
+                "message": "Fetched social networking webiste founders object",
+                "response": {
+                    "founders": item.info.founders
+                }
+            }
+            let links = [
+                {
+                    "href": "openapidoc",
+                    "rel": "Open api documentation",
+                    "type": "GET"
+                },
+            ]
+
+            result.response.links = links
+
+            res.type('json')
+            res.status('200')
+            res.send(JSON.stringify(result))
+        }
+
+        if (result == undefined) {
+            result = {
+                "status": "Not Found",
+                "message": "Social networking website with the provided ID doesn't exist",
+                "reponse": null
+            }
+            res.type('json')
+            res.status('404')
+            res.send(JSON.stringify(result))
+        }
+    })
+})
+
+app.get('/api/:id/website', async (req, res) => {
+    //get parameters from the HTTP request
+    let networkID = req.params.id
+
+    //get data from the database
+    let text = 'SELECT * FROM socials'
+    let data = await db.query(text);
+
+    //create response JSON object. item.info contains the object from database
+    let result = undefined
+    data.rows.forEach(async (item, i) => {
+        if (networkID == item.id) {
+            result = {
+                "status": "OK",
+                "message": "Fetched social networking webiste URL object",
+                "response": {
+                    "website": item.info.website
                 }
             }
             let links = [
