@@ -141,19 +141,22 @@ app.get('/api/id/:id', async (req, res) => {
             res.type('json')
             res.status('200')
             res.send(JSON.stringify(result))
+            res.end()
         }
 
-        if (result == undefined) {
-            result = {
-                "status": "Not Found",
-                "message": "Social networking website with the provided ID doesn't exist",
-                "reponse": null
-            }
-            res.type('json')
-            res.status('404')
-            res.send(JSON.stringify(result))
-        }
+
     })
+    if (result == undefined) {
+        result = {
+            "status": "Not Found",
+            "message": "Social networking website with the provided ID doesn't exist",
+            "reponse": null
+        }
+        res.type('json')
+        res.status('404')
+        res.send(JSON.stringify(result))
+        res.end()
+    }
 })
 
 app.get('/openapidoc', async (req, res) => {
@@ -195,19 +198,22 @@ app.get('/api/:id/wiki', async (req, res) => {
             res.type('json')
             res.status('200')
             res.send(JSON.stringify(result))
+            res.end()
         }
 
-        if (result == undefined) {
-            result = {
-                "status": "Not Found",
-                "message": "Social networking website with the provided ID doesn't exist",
-                "reponse": null
-            }
-            res.type('json')
-            res.status('404')
-            res.send(JSON.stringify(result))
-        }
+
     })
+    if (result == undefined) {
+        result = {
+            "status": "Not Found",
+            "message": "Social networking website with the provided ID doesn't exist",
+            "reponse": null
+        }
+        res.type('json')
+        res.status('404')
+        res.send(JSON.stringify(result))
+        res.end()
+    }
 })
 
 app.get('/api/:id/founders', async (req, res) => {
@@ -242,19 +248,22 @@ app.get('/api/:id/founders', async (req, res) => {
             res.type('json')
             res.status('200')
             res.send(JSON.stringify(result))
+            res.end()
         }
 
-        if (result == undefined) {
-            result = {
-                "status": "Not Found",
-                "message": "Social networking website with the provided ID doesn't exist",
-                "reponse": null
-            }
-            res.type('json')
-            res.status('404')
-            res.send(JSON.stringify(result))
-        }
+
     })
+    if (result == undefined) {
+        result = {
+            "status": "Not Found",
+            "message": "Social networking website with the provided ID doesn't exist",
+            "reponse": null
+        }
+        res.type('json')
+        res.status('404')
+        res.send(JSON.stringify(result))
+        res.end()
+    }
 })
 
 app.get('/api/:id/website', async (req, res) => {
@@ -289,19 +298,22 @@ app.get('/api/:id/website', async (req, res) => {
             res.type('json')
             res.status('200')
             res.send(JSON.stringify(result))
+            res.end()
         }
 
-        if (result == undefined) {
-            result = {
-                "status": "Not Found",
-                "message": "Social networking website with the provided ID doesn't exist",
-                "reponse": null
-            }
-            res.type('json')
-            res.status('404')
-            res.send(JSON.stringify(result))
-        }
+
     })
+    if (result == undefined) {
+        result = {
+            "status": "Not Found",
+            "message": "Social networking website with the provided ID doesn't exist",
+            "reponse": null
+        }
+        res.type('json')
+        res.status('404')
+        res.send(JSON.stringify(result))
+        res.end()
+    }
 })
 
 app.post('/api', async (req, res) => {
@@ -368,7 +380,7 @@ app.post('/api', async (req, res) => {
 })
 
 app.delete('/api/:id', async (req, res) => {
-    
+
     //get parameters from the HTTP request
     let networkID = req.params.id
 
@@ -380,7 +392,7 @@ app.delete('/api/:id', async (req, res) => {
 
     //check if deleted
     let result = undefined
-    if (!(data.rows === undefined || data.rows.length == 0)){
+    if (!(data.rows === undefined || data.rows.length == 0)) {
         //success
         result = {
             "status": "OK",
@@ -402,6 +414,7 @@ app.delete('/api/:id', async (req, res) => {
         res.type('json')
         res.status('200')
         res.send(JSON.stringify(result))
+        res.end()
     } else {
         result = {
             "status": "Not Implemented",
@@ -411,6 +424,7 @@ app.delete('/api/:id', async (req, res) => {
         res.type('json')
         res.status('501')
         res.send(JSON.stringify(result))
+        res.end()
     }
 })
 
