@@ -4,7 +4,25 @@ const db = require('./db'); //database object
 const fs = require('fs') //filesystem
 const { PythonShell } = require('python-shell');
 const bodyParser = require('body-parser');
+const fetch = require('node-fetch');
+const http = require('https');
+//const cache = require ('./cache.json')
+let cache = {}
+function addDays(date, days) {
+    var result = new Date(date);
+    result.setDate(result.getDate() + days);
+    return result;
+}
 
+let download = function (url, dest, cb) {
+    var file = fs.createWriteStream(dest);
+    http.get(url, function (response) {
+        response.pipe(file);
+        file.on('finish', function () {
+            file.close(cb);
+        });
+    });
+}
 
 var app = express()
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -137,6 +155,11 @@ app.get('/api/id/:id', async (req, res) => {
             ]
 
             result.response.links = links
+            result.response["@context"] = {
+                "@vocab": "http://schema.org/",
+                "employees": "numberOfEmployees",
+                "name": "https://schema.org/name"
+                }
 
             res.type('json')
             res.status('200')
@@ -494,6 +517,87 @@ app.delete('/api/:id', async (req, res) => {
     }
 })
 
+app.get('/api/:id/picture', async (req, res, next) => {
+    //get parameters from the HTTP request
+    let networkID = req.params.id
+
+    //get data from the database
+    let text = `SELECT * FROM socials WHERE id = ${networkID}`
+    let data = await db.query(text);
+
+    let wikiHandle = data?.rows[0]?.info.wiki_handle
+    if (!wikiHandle) {
+        console.log("wikiHandle nije dohvacen")
+        console.log(wikiHandle);
+        console.log(data)
+        return;
+    }
+
+    let url = `https://en.wikipedia.org/api/rest_v1/page/media-list/${wikiHandle}`;
+    console.log(url)
+    fetch(url)
+        .then(response => response.json())
+        .then(response => {
+            console.log(response)
+
+            let partialLink = response.items[0].srcset[0].src
+            let link = "https:" + partialLink;
+            console.log(link);
+            let parts = partialLink.split("/");
+            let imageName = parts[parts.length - 1];
+            let dest = path.join(__dirname + '/public/' + imageName)
+            console.log(dest)
+
+            if (cache[link] === undefined) {
+                // not in cache
+                console.log("not in cache")
+                // set expire date
+                cache[link] = addDays(new Date(), 1); // 1 dan
+                console.log(cache[link]);
+
+                // download and send
+                download(link, dest, () => {
+                    // downloaded
+                    console.log("downloaded " + dest)
+                    res.set('Content-Type', 'image/png')
+                    res.set('Content-Disposition', `attachment; filename="${imageName}"`)
+                    res.sendFile(dest)
+                    return;
+                })
+
+            } else {
+                if (cache[link] > new Date()) {
+                    //nije isteklo
+                    console.log("nije isteklo")
+                    res.set('Content-Type', 'image/png')
+                    res.set('Content-Disposition', `attachment; filename="${imageName}"`)
+                    res.sendFile(dest)
+                    return;
+                } else {
+                    // isteklo
+                    console.log("isteklo")
+                    // set expire date
+                    cache[link] = addDays(new Date(), 1); // 1 dan
+                    console.log(cache[link]);
+
+                    // download and send
+                    download(link, dest, () => {
+                        // downloaded
+                        console.log("downloaded " + dest)
+                        res.set('Content-Type', 'image/png')
+                        res.set('Content-Disposition', `attachment; filename="${imageName}"`)
+                        res.sendFile(dest)
+                        return;
+                    })
+                }
+            }
+
+        })
+        .catch(err => console.log(err));
+    return
+
+})
+
 app.use((req, response, next) => {
     response.status(501)
     response.json({
@@ -505,3 +609,9 @@ app.use((req, response, next) => {
 });
 
 var server = app.listen(3000, function () { })
+
+
+// https://en.wikipedia.org/api/rest_v1/page/media-list/Facebook
+
+// let link= api.items[0].srcset[0].src
+// link = "https:" + link
